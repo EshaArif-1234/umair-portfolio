@@ -1,45 +1,29 @@
-// src/sections/ContactSection.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
 import { motion } from "framer-motion";
 import { useGLTF } from "@react-three/drei";
-// import { ComputerCanvas } from "../components/ThreeModels/ComputerModel";
+import ErrorBoundary from "../ components/ThreeModels/ErrorBoundary";
 
 const FloatingMedicalIcon = () => {
-  const [modelLoaded, setModelLoaded] = useState<boolean>(false);
-  const { scene, error } = useGLTF("/assets/models/medical-icon.glb", true, (err) => {
-    console.error("Failed to load medical icon model:", err);
-    setModelLoaded(false);
-  });
-
-  useEffect(() => {
-    if (error || !scene) {
-      setModelLoaded(false);
-    } else {
-      setModelLoaded(true);
-    }
-  }, [error, scene]);
-
-  if (!modelLoaded) {
-    return (
-      <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-        <mesh>
-          <sphereGeometry args={[0.5, 32, 32]} />
-          <meshStandardMaterial color="#778da9" />
-        </mesh>
-      </Float>
-    );
-  }
+  const { scene } = useGLTF("/assets/models/medical-icon.glb");
 
   return (
     <Float speed={2} rotationIntensity={1} floatIntensity={2}>
       <primitive object={scene} scale={0.5} />
     </Float>
   );
-}; 
+};
 
+const FallbackSphere = () => (
+  <Float speed={2} rotationIntensity={1} floatIntensity={2}>
+    <mesh>
+      <sphereGeometry args={[0.5, 32, 32]} />
+      <meshStandardMaterial color="#778da9" />
+    </mesh>
+  </Float>
+);
 
 const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -51,55 +35,70 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="relative min-h-[100vh] p-6 md:p-12 flex items-center justify-center bg-[#e0e1dd] dark:bg-[#0d1b2a] text-[#0d1b2a] dark:text-[#e0e1dd]">
-      {/* 3D Background - Commented out to run project without 3D models */}
-      {/* <div className="absolute top-0 left-0 w-full h-full -z-10">
-        <ComputerCanvas />
-      </div> */}
+    <section
+      id="contact"
+      className="relative min-h-screen px-6 py-16 md:py-20 bg-gradient-to-br from-[#e0e1dd] via-white to-[#778da9] dark:bg-gradient-to-br dark:from-black dark:via-[#0d1b2a] dark:to-black text-[#0d1b2a] dark:text-white"
+    >
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10">
+        {/* Left Side: 3D Canvas */}
+        <div className="w-full md:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px]">
+          <Canvas>
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[2, 2, 2]} />
+            <OrbitControls enableZoom={false} />
+            <ErrorBoundary fallback={<FallbackSphere />}>
+              <FloatingMedicalIcon />
+            </ErrorBoundary>
+          </Canvas>
+        </div>
 
-      <div className="bg-white dark:bg-[#1b263b] rounded-xl shadow-lg w-full max-w-xl p-8">
-        <h2 className="text-2xl font-bold mb-4 text-center">Get in Touch</h2>
-        <p className="text-sm mb-6 text-center">Let's work together on your medical billing needs.</p>
+        {/* Right Side: Contact Form */}
+        <div className="bg-white dark:bg-[#1b263b] rounded-xl shadow-xl p-8 md:p-10 w-full md:w-1/2 max-w-lg">
+          <h2 className="text-3xl font-bold mb-4 text-center">Get in Touch</h2>
+          <p className="text-sm mb-6 text-center text-gray-700 dark:text-gray-300">
+            Let’s work together on your medical billing needs.
+          </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Full Name"
-            className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none"
-            required
-          />
-          <textarea
-            placeholder="Message"
-            rows={4}
-            className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none"
-            required
-          />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none text-black dark:text-white"
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none text-black dark:text-white"
+              required
+            />
+            <textarea
+              placeholder="Message"
+              rows={4}
+              className="w-full p-3 rounded bg-gray-100 dark:bg-[#415a77] outline-none text-black dark:text-white"
+              required
+            />
 
-          <motion.button
-            type="submit"
-            whileTap={{ scale: 0.95 }}
-            whileHover={{ scale: 1.05 }}
-            className="w-full bg-[#778da9] dark:bg-[#e0e1dd] text-white dark:text-[#0d1b2a] p-3 rounded transition-all"
-          >
-            Send Message
-          </motion.button>
-
-          {submitted && (
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-green-600 text-center mt-2"
+            <motion.button
+              type="submit"
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.05 }}
+              className="w-full bg-[#778da9] dark:bg-[#e0e1dd] text-white dark:text-[#0d1b2a] p-3 rounded transition-all font-semibold"
             >
-              Thank you! Your message has been sent.
-            </motion.p>
-          )}
-        </form>
+              Send Message
+            </motion.button>
+
+            {submitted && (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-green-600 text-center mt-2"
+              >
+                Thank you! Your message has been sent.
+              </motion.p>
+            )}
+          </form>
+        </div>
       </div>
     </section>
   );

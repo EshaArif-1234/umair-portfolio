@@ -12,14 +12,14 @@ const portals = [
 ]
 
 const ehrSystems = [
-  { name: 'AdvancedMD', logo: '/assets/tools/modemed.png' },
-  { name: 'DrChrono', logo: '/assets/tools/officeally.png' },
-  { name: 'Athenahealth', logo: '/assets/tools/cure-md.png' },
-  { name: 'ChiroTouch', logo: '/assets/tools/chirotech.png' },
+  { name: 'Modemd', logo: '/assets/tools/modemed.png' },
+  { name: 'Office Ally', logo: '/assets/tools/officeally.png' },
+  { name: 'Cure MD', logo: '/assets/tools/cure-md.png' },
+  { name: 'Chirotech', logo: '/assets/tools/chirotech.png' },
   { name: 'Jane', logo: '/assets/tools/jane.png' },
   { name: 'NextGen', logo: '/assets/tools/next-gen.png' },
   { name: 'Practice Fusion', logo: '/assets/tools/practice-fucsion.png' },
-  { name: 'Epic Systems', logo: '/assets/tools/Epic.png' },
+  { name: 'Epic', logo: '/assets/tools/Epic.png' },
 ]
 
 const Tools: React.FC = () => {
