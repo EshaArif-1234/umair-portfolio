@@ -2,14 +2,24 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Marquee from 'react-fast-marquee'
 
-const tools: { name: string; logo: string }[] = [
-  { name: 'Kareo', logo: '/images/tools/kareo.png' },
-  { name: 'AdvancedMD', logo: '/images/tools/advancedmd.png' },
-  { name: 'DrChrono', logo: '/images/tools/drchrono.png' },
-  { name: 'Athenahealth', logo: '/images/tools/athena.png' },
-  { name: 'Office Ally', logo: '/images/tools/officeally.png' },
-  { name: 'Practice Fusion', logo: '/images/tools/pfusion.png' },
-  { name: 'Epic Systems', logo: '/images/tools/epic.png' },
+const portals = [
+  { name: 'Availity', logo: '/assets/tools/availty.png' },
+  { name: 'Trizetto', logo: '/assets/tools/trizetto.png' },
+  { name: 'UHC', logo: '/assets/tools/UHC.png' },
+  { name: 'UHSS', logo: '/assets/tools/UHSS.png' },
+  { name: 'Noridian', logo: '/assets/tools/Noridian.png' },
+  { name: 'Kaiser', logo: '/assets/tools/kaiser.png' },
+]
+
+const ehrSystems = [
+  { name: 'AdvancedMD', logo: '/assets/tools/modemed.png' },
+  { name: 'DrChrono', logo: '/assets/tools/officeally.png' },
+  { name: 'Athenahealth', logo: '/assets/tools/cure-md.png' },
+  { name: 'ChiroTouch', logo: '/assets/tools/chirotech.png' },
+  { name: 'Jane', logo: '/assets/tools/jane.png' },
+  { name: 'NextGen', logo: '/assets/tools/next-gen.png' },
+  { name: 'Practice Fusion', logo: '/assets/tools/practice-fucsion.png' },
+  { name: 'Epic Systems', logo: '/assets/tools/Epic.png' },
 ]
 
 const Tools: React.FC = () => {
@@ -44,25 +54,54 @@ const Tools: React.FC = () => {
         </p>
       </motion.div>
 
-      {/* Logo Slider */}
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <Marquee pauseOnHover gradient={false} speed={50} className="py-4">
-          <div className="flex gap-16 items-center">
-            {tools.map((tool, index) => (
+      {/* Portals Slider */}
+      <div className="relative z-10 max-w-6xl mx-auto overflow-hidden mb-12">
+        <h3 className="text-xl font-bold text-deepDark dark:text-light mb-4 text-center">Billing Portals</h3>
+        <Marquee pauseOnHover={false} gradient={false} speed={30} className="py-6 overflow-hidden" style={{ overflow: 'hidden' }}>
+          <div className="flex gap-12 px-8 items-center" style={{ overflow: 'hidden' }}>
+            {portals.map((portal, index) => (
               <motion.div 
                 key={index} 
-                className="flex-shrink-0 w-40 h-24 flex items-center justify-center bg-white/80 dark:bg-deepDark/80 rounded-2xl shadow-md dark:shadow-[0_4px_12px_rgba(255,255,255,0.1)] p-4 transition-all duration-300 hover:scale-105 hover:shadow-xl dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.15)] backdrop-blur-sm border border-white/20 dark:border-deepDark/20"
+                className="flex-shrink-0 w-48 h-36 flex flex-col items-center justify-center bg-white/90 dark:bg-deepDark/90 rounded-2xl shadow-md dark:shadow-[0_6px_14px_rgba(255,255,255,0.1)] p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl dark:hover:shadow-[0_8px_18px_rgba(255,255,255,0.15)] backdrop-blur-md border border-white/30 dark:border-deepDark/30"
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
                 variants={fadeIn}
               >
                 <img
-                  src={tool.logo}
-                  alt={tool.name}
-                  className="max-h-full object-contain dark:invert"
+                  src={portal.logo}
+                  alt={portal.name}
+                  className="max-h-16 object-contain dark:invert transition-all duration-300 h-16 w-auto mb-2"
                 />
+                <p className="text-sm font-semibold text-deepDark dark:text-light text-center leading-tight truncate w-full">{portal.name}</p>
+              </motion.div>
+            ))}
+          </div>
+        </Marquee>
+      </div>
+
+      {/* EHR Systems Slider */}
+      <div className="relative z-10 max-w-6xl mx-auto overflow-hidden">
+        <h3 className="text-xl font-bold text-deepDark dark:text-light mb-4 text-center">EHR Systems</h3>
+        <Marquee pauseOnHover={false} gradient={false} speed={30} className="py-6 overflow-hidden" style={{ overflow: 'hidden' }} direction="right">
+          <div className="flex gap-12 px-8 items-center" style={{ overflow: 'hidden' }}>
+            {ehrSystems.map((ehr, index) => (
+              <motion.div 
+                key={index} 
+                className="flex-shrink-0 w-48 h-36 flex flex-col items-center justify-center bg-white/90 dark:bg-deepDark/90 rounded-2xl shadow-md dark:shadow-[0_6px_14px_rgba(255,255,255,0.1)] p-4 transition-all duration-500 hover:scale-105 hover:shadow-xl dark:hover:shadow-[0_8px_18px_rgba(255,255,255,0.15)] backdrop-blur-md border border-white/30 dark:border-deepDark/30"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                variants={fadeIn}
+              >
+                <img
+                  src={ehr.logo}
+                  alt={ehr.name}
+                  className="max-h-16 object-contain dark:invert transition-all duration-300 h-16 w-auto mb-2"
+                />
+                <p className="text-sm font-semibold text-deepDark dark:text-light text-center leading-tight truncate w-full">{ehr.name}</p>
               </motion.div>
             ))}
           </div>
