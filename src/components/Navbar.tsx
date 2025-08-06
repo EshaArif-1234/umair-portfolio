@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-light dark:bg-dark shadow-md transition-colors duration-300">
+    <header className="sticky top-0 z-50 bg-light dark:bg-deepDark shadow-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 py-4 md:py-6 flex justify-between items-center">
         {/* Logo and Name */}
         <div className="flex items-center gap-10">

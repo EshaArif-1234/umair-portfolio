@@ -1,28 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Float } from "@react-three/drei";
+import { OrbitControls, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
-import { useGLTF } from "@react-three/drei";
-import ErrorBoundary from "../ components/ThreeModels/ErrorBoundary";
+import ErrorBoundary from "../components/ThreeModels/ErrorBoundary";
+import MoonModel from "../components/ThreeModels/MoonModel";
 
-const FloatingMedicalIcon = () => {
-  const { scene } = useGLTF("/assets/models/medical-icon.glb");
-
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-      <primitive object={scene} scale={0.5} />
-    </Float>
-  );
-};
-
+// 💎 Fallback sphere if model fails
 const FallbackSphere = () => (
-  <Float speed={2} rotationIntensity={1} floatIntensity={2}>
-    <mesh>
-      <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color="#778da9" />
-    </mesh>
-  </Float>
+  <mesh>
+    <sphereGeometry args={[0.7, 32, 32]} />
+    <meshStandardMaterial color="#778da9" />
+  </mesh>
 );
 
 const ContactSection = () => {
@@ -40,19 +29,31 @@ const ContactSection = () => {
       className="relative min-h-screen px-6 py-16 md:py-20 bg-gradient-to-br from-[#e0e1dd] via-white to-[#778da9] dark:bg-gradient-to-br dark:from-black dark:via-[#0d1b2a] dark:to-black text-[#0d1b2a] dark:text-white"
     >
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10">
-        {/* Left Side: 3D Canvas */}
-        <div className="w-full md:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px]">
-          <Canvas>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[2, 2, 2]} />
-            <OrbitControls enableZoom={false} />
+        {/* 💎 Left Side: 3D Canvas */}
+        <div className="w-full md:w-1/2 h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px]">
+          <Canvas camera={{ position: [0, 0, 4] }}>
+            <Stars
+              radius={100}
+              depth={50}
+              count={5000}
+              factor={4}
+              saturation={0}
+              fade
+            />
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <OrbitControls
+              enableZoom={false}
+              autoRotate
+              autoRotateSpeed={1.5}
+            />
             <ErrorBoundary fallback={<FallbackSphere />}>
-              <FloatingMedicalIcon />
+              <MoonModel />
             </ErrorBoundary>
           </Canvas>
         </div>
 
-        {/* Right Side: Contact Form */}
+        {/* 💎 Right Side: Contact Form */}
         <div className="bg-white dark:bg-[#1b263b] rounded-xl shadow-xl p-8 md:p-10 w-full md:w-1/2 max-w-lg">
           <h2 className="text-3xl font-bold mb-4 text-center">Get in Touch</h2>
           <p className="text-sm mb-6 text-center text-gray-700 dark:text-gray-300">
