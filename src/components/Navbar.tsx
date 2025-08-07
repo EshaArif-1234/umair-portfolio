@@ -89,12 +89,12 @@ const Navbar: React.FC = () => {
         </button>
 
         {/* Dark Mode Toggle - Desktop */}
-        <button
+        {/* <button
           onClick={toggleTheme}
           className="hidden md:block ml-4 text-xl text-gray-700 dark:text-gray-300"
         >
           {theme ? <Sun size={22} /> : <Moon size={22} />}
-        </button>
+        </button> */}
       </div>
 
       {/* Mobile Menu */}
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
               </a>
             ))}
           </nav>
-          <div className="px-4 py-3 flex justify-between items-center border-t border-gray-200 dark:border-gray-700">
+          {/* <div className="px-4 py-3 flex justify-between items-center border-t border-gray-200 dark:border-gray-700">
             <span className="text-sm text-gray-700 dark:text-gray-300">
               Theme
             </span>
@@ -123,7 +123,7 @@ const Navbar: React.FC = () => {
             >
               {theme ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-          </div>
+          </div> */}
         </div>
       )}
     </header>
