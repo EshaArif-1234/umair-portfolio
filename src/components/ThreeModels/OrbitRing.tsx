@@ -8,8 +8,8 @@ interface OrbitRingProps {
 }
 
 const OrbitRing: React.FC<OrbitRingProps> = ({
-  innerRadius = 1.5,
-  outerRadius = 1.6,
+  innerRadius = 2.2, // Increased from 1.5
+  outerRadius = 2.3, // Increased from 1.6
   color = "#ffffff",
   rotation = [Math.PI / 2, 0, 0],
 }) => (

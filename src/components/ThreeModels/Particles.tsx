@@ -6,9 +6,9 @@ const Particles = ({ count = 150 }) => {
     const temp: number[] = [];
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * 2 * Math.PI;
-      const radius = 1.5 + Math.random() * 0.2;
+      const radius = 2.2 + Math.random() * 0.1; // Adjusted to match ring size
       const x = radius * Math.cos(angle);
-      const y = (Math.random() - 0.5) * 0.2;
+      const y = (Math.random() - 0.5) * 0.3; // Increased spread
       const z = radius * Math.sin(angle);
       temp.push(x, y, z);
     }
@@ -26,7 +26,7 @@ const Particles = ({ count = 150 }) => {
           args={[positions, 3]}
         />
       </bufferGeometry>
-      <pointsMaterial color="#ffffff" size={0.02} />
+      <pointsMaterial color="#ffffff" size={0.03} /> {/* Increased particle size */}
     </points>
   );
 };

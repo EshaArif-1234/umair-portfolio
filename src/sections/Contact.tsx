@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
@@ -17,29 +17,40 @@ const FallbackSphere = () => (
 const ContactSection = () => {
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
-  };
+  }, []);
 
   return (
     <section
       id="contact"
-      className="relative min-h-screen px-6 py-16 md:py-20 bg-gradient-to-br from-[#e0e1dd] via-white to-[#778da9] dark:bg-gradient-to-br dark:from-black dark:via-[#0d1b2a] dark:to-black text-[#0d1b2a] dark:text-white"
+      className="relative min-h-screen px-6 py-16 md:py-20 bg-gradient-to-br from-[#0d1b2a] via-[#1b263b] to-[#415a77] text-white"
     >
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10">
+      {/* Background Stars */}
+      <div className="absolute inset-0">
+        <Canvas>
+          <Stars
+            radius={100}
+            depth={50}
+            count={5000}
+            factor={4}
+            saturation={0}
+            fade
+          />
+          <OrbitControls
+            enableZoom={false}
+            autoRotate
+            autoRotateSpeed={1.5}
+          />
+        </Canvas>
+      </div>
+
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-10 relative z-10">
         {/* 💎 Left Side: 3D Canvas */}
         <div className="w-full md:w-1/2 h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px]">
           <Canvas camera={{ position: [0, 0, 4] }}>
-            <Stars
-              radius={100}
-              depth={50}
-              count={5000}
-              factor={4}
-              saturation={0}
-              fade
-            />
             <ambientLight intensity={0.8} />
             <directionalLight position={[5, 5, 5]} intensity={1} />
             <OrbitControls

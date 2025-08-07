@@ -31,13 +31,13 @@ const ClientsSection: React.FC = () => {
       id="clients"
       className={`py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden ${
         isDark
-          ? 'bg-gradient-to-b from-black to-[#0e0e0e]/90 text-light'
-          : 'bg-gradient-to-b from-[#f8f9fa] to-[#f8f9fa]/80 text-deepDark'
+          ? 'bg-gradient-to-b from-[#0d1b2a] via-[#1b263b] to-[#0d1b2a] text-white'
+          : 'bg-gradient-to-b from-[#e0e1dd] via-[#778da9] to-[#415a77] text-[#0d1b2a]'
       }`}
     >
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-72 h-72 bg-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-24 -left-24 w-72 h-72 bg-[#415a77]/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-[#0d1b2a]/20 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-6xl mx-auto text-center relative z-10">
@@ -71,32 +71,33 @@ const ClientsSection: React.FC = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.8, staggerChildren: 0.2 }}
           variants={fadeIn}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-center items-center mt-10 max-w-5xl"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-center items-center mt-10 mx-auto"
         >
           {clients.map((client, index) => (
-            <motion.div
-              key={index}
-              variants={fadeIn}
-              className={`flex justify-center items-center h-28 w-52 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 ${
-                isDark ? 'bg-white/10' : 'bg-black/5'
-              }`}
-            >
-              <img
-                src={client.logo}
-                alt={client.name}
-                className="h-16 w-16 object-contain grayscale hover:grayscale-0 transition duration-300"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  const fallback = document.createElement('div');
-                  fallback.className = `h-16 w-16 flex items-center justify-center text-sm ${
-                    isDark ? 'text-gray-400' : 'text-gray-500'
-                  }`;
-                  fallback.textContent = client.name;
-                  e.currentTarget.parentElement?.appendChild(fallback);
-                }}
-              />
-            </motion.div>
-          ))}
+  <motion.div
+    key={index}
+    variants={fadeIn}
+    className={`flex justify-center items-center h-28 w-52 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 ${
+      isDark ? 'bg-white hover:bg-gray-100' : 'bg-white/80 hover:bg-white'
+    }`}
+  >
+    <img
+      src={client.logo}
+      alt={client.name}
+      className="h-16 w-16 object-contain grayscale hover:grayscale-0 transition duration-300"
+      onError={(e) => {
+        e.currentTarget.style.display = 'none';
+        const fallback = document.createElement('div');
+        fallback.className = `h-16 w-16 flex items-center justify-center text-sm ${
+          isDark ? 'text-gray-600' : 'text-gray-500'
+        }`;
+        fallback.textContent = client.name;
+        e.currentTarget.parentElement?.appendChild(fallback);
+      }}
+    />
+  </motion.div>
+))}
+
         </motion.div>
       </div>
     </section>

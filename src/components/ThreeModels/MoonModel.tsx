@@ -15,9 +15,9 @@ const MoonModel = () => {
   return (
     <group>
     {/* Floating moon sphere with texture */}
-    <Float speed={2} rotationIntensity={1} floatIntensity={2}>
+    <Float speed={1.5} rotationIntensity={0.8} floatIntensity={1.5}>
       <mesh>
-        <sphereGeometry args={[0.9, 64, 64]} />
+        <sphereGeometry args={[1.5, 64, 64]} />
         <meshStandardMaterial map={moonTexture} />
       </mesh>
     </Float>
@@ -26,7 +26,7 @@ const MoonModel = () => {
     <OrbitRing />
 
     {/* Particle system floating around the orbit */}
-    <Particles count={150} />
+    <Particles count={200} />
   </group>
   );
 };
