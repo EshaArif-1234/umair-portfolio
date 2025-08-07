@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './sections/Hero';
@@ -11,7 +11,7 @@ import Contact from './sections/Contact';
 import { ThemeProvider } from './theme/ThemeContext';
 import { motion } from 'framer-motion';
 
-function App(): JSX.Element {
+function App(): React.ReactElement {
   return (
     <ThemeProvider>
       <div className="font-sans bg-light dark:bg-dark text-dark dark:text-light transition-colors duration-500">

@@ -24,7 +24,7 @@ const fadeIn = {
 const ClientsSection: React.FC = () => {
   const { theme } = useTheme();
 
-  const isDark = theme === 'dark';
+  const isDark = theme;
 
   return (
     <section

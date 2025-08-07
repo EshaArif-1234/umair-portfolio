@@ -23,12 +23,12 @@ const Footer = () => {
   return (
     <footer
       className={`py-6 px-4 flex flex-col md:flex-row items-center justify-between ${
-        theme === 'dark' ? 'bg-[#0d1b2a]' : 'bg-[#e0e1dd]'
+        theme ? 'bg-[#0d1b2a]' : 'bg-[#e0e1dd]'
       }`}
     >
       <p
         className={`text-sm ${
-          theme === 'dark' ? 'text-[#e0e1dd]' : 'text-[#0d1b2a]'
+          theme ? 'text-[#e0e1dd]' : 'text-[#0d1b2a]'
         }`}
       >
         &copy; {new Date().getFullYear()} Umair Hassan — All Rights Reserved.
@@ -41,7 +41,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className={`text-xl ${
-              theme === 'dark' ? 'text-[#e0e1dd]' : 'text-[#0d1b2a]'
+              theme ? 'text-[#e0e1dd]' : 'text-[#0d1b2a]'
             }`}
             whileHover={{ scale: 1.2, rotate: 10 }}
             whileTap={{ scale: 0.95 }}

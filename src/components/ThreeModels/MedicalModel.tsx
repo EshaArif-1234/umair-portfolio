@@ -1,5 +1,5 @@
 // MedicalModel.tsx
-import { useGLTF, useEnvironment, OrbitControls, ContactShadows, Stage } from '@react-three/drei';
+import { useGLTF, OrbitControls, ContactShadows, Stage } from '@react-three/drei';
 import { useRef, Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';

@@ -1,11 +1,19 @@
 'use client';
-import React from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../theme/ThemeContext';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
 
-const experiences = [
+interface Experience {
+  title: string;
+  company_name: string;
+  date: string;
+  icon: string;
+  iconBg: string;
+  points: string[];
+}
+
+const experiences: Experience[] = [
   {
     title: 'Mern Stack, Wordpress',
     company_name: 'Tekvill',
@@ -38,17 +46,17 @@ const fadeIn = {
   visible: { opacity: 1, y: 0 },
 };
 
-const ExperienceCard = ({ experience }) => {
+const ExperienceCard = ({ experience }: { experience: Experience }) => {
   const { theme } = useTheme();
   return (
     <VerticalTimelineElement
       contentStyle={{
-        background: theme === 'deepDark' ? '#1d1836' : '#fff',
-        color: theme === 'deepDark' ? '#fff' : '#fff',
-        border: theme === 'deepDark' ? '1px solid #333' : '1px solid #ddd',
+        background: theme ? '#1d1836' : '#fff',
+        color: '#fff',
+        border: theme ? '1px solid #333' : '1px solid #ddd',
       }}
       contentArrowStyle={{
-        borderRight: theme === 'deepDark' ? '7px solid #232631' : '7px solid #ddd',
+        borderRight: theme ? '7px solid #232631' : '7px solid #ddd',
       }}
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
@@ -63,31 +71,19 @@ const ExperienceCard = ({ experience }) => {
       }
     >
       <div>
-        <h3
-          className={`text-[24px] font-bold ${
-            theme === 'deepDark' ? 'text-white' : 'text-deepDark'
-          }`}
-        >
+        <h3 className={`text-[24px] font-bold ${theme ? 'text-white' : 'text-deepDark'}`}>
           {experience.title}
         </h3>
-        <p
-          className={`text-[16px] font-semibold ${
-            theme === 'dark' ? 'text-secondary' : 'text-gray-600'
-          }`}
-          style={{ margin: 0 }}
-        >
+        <p className={`text-[16px] font-semibold ${theme ? 'text-secondary' : 'text-gray-600'}`}
+          style={{ margin: 0 }}>
           {experience.company_name}
         </p>
       </div>
 
       <ul className="mt-5 list-disc ml-5 space-y-2 text-base">
-        {experience.points.map((point, i) => (
-          <li
-            key={`experience-point-${i}`}
-            className={`pl-1 tracking-wider ${
-              theme === 'dark' ? 'text-white' : 'text-gray-700'
-            }`}
-          >
+        {experience.points.map((point: string, i: number) => (
+          <li key={`experience-point-${i}`}
+              className={`pl-1 tracking-wider ${theme ? 'text-white' : 'text-gray-700'}`}>
             {point}
           </li>
         ))}
@@ -103,10 +99,8 @@ const Experience = () => {
     <section
       id="work"
       className={`relative w-full min-h-screen py-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${
-        theme === 'dark'
-          ? 'bg-gradient-to-b from-[#1a202c] to-[#1a202c]/80 text-white'
-          : 'bg-gradient-to-b from-dark to-dark/80 text-white'
-      }`}
+        theme ? 'bg-gradient-to-b from-[#1a202c] to-[#1a202c]/80' : 'bg-gradient-to-b from-dark to-dark/80'
+      } text-white`}
     >
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 -left-24 w-72 h-72 bg-secondary/10 rounded-full blur-3xl"></div>
@@ -121,24 +115,12 @@ const Experience = () => {
           variants={fadeIn}
           className="text-center mb-16"
         >
-          <p
-            className={`text-lg ${
-              theme === 'dark' ? 'text-white' : 'text-white'
-            }`}
-          >
-            What I have done so far
-          </p>
-          <h2
-            className={`text-4xl font-extrabold ${
-              theme === 'dark' ? 'text-white' : 'text-white'
-            }`}
-          >
-            Work Experience
-          </h2>
+          <p className="text-lg text-white">What I have done so far</p>
+          <h2 className="text-4xl font-extrabold text-white">Work Experience</h2>
         </motion.div>
 
         <div className="flex flex-col mt-20">
-          <VerticalTimeline lineColor={theme === 'dark' ? '#333' : '#ddd'}>
+          <VerticalTimeline lineColor={theme ? '#333' : '#ddd'}>
             {experiences.map((experience, i) => (
               <ExperienceCard key={i} experience={experience} />
             ))}

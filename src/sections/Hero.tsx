@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import type { Variants, Easing } from "framer-motion";
 
 const Hero: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -9,7 +10,7 @@ const Hero: React.FC = () => {
   }, []);
 
   // Variants for background particle animation
-  const particleVariants = {
+  const particleVariants: Variants = {
     hidden: { opacity: 0, scale: 0 },
     visible: {
       opacity: [0.2, 0.5, 0.2],
@@ -17,7 +18,8 @@ const Hero: React.FC = () => {
       transition: {
         duration: 6,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: "easeInOut" as Easing,
+        times: [0, 0.5, 1],
       },
     },
   };
