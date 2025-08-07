@@ -8,15 +8,15 @@ const Footer = () => {
   const iconList = [
     {
       icon: <FaLinkedin />,
-      link: 'https://linkedin.com/in/umair-hassan',
+      link: 'https://www.linkedin.com/in/umair-hassan-4b1a4a374/',
     },
-    {
-      icon: <FaBehance />,
-      link: 'https://behance.net/umair-hassan',
-    },
+    // {
+    //   icon: <FaBehance />,
+    //   link: 'https://behance.net/umair-hassan',
+    // },
     {
       icon: <FaEnvelope />,
-      link: 'mailto:umairhassan@example.com',
+      link: 'mailto:umairbiller422@gmail.com',
     },
   ];
 
