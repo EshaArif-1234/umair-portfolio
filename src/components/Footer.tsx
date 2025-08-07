@@ -1,4 +1,4 @@
-import { FaLinkedin, FaBehance, FaEnvelope } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useTheme } from '../theme/ThemeContext';
 

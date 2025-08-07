@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../theme/ThemeContext";
-import { Sun, Moon, Menu, X } from "lucide-react";
+import {  Menu, X } from "lucide-react";
 import LightLogo from "/assets/Elegant Serif Logo Design.png";
 import DarkLogo from "/assets/Elegant Serif Logo Design 1.png";
 
@@ -15,7 +15,7 @@ const sections = [
 ];
 
 const Navbar: React.FC = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme} = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero"); // Default to 'hero' (Home)
   const activeStyle = {
