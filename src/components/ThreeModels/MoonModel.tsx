@@ -7,7 +7,7 @@ import Particles from "./Particles";
 
 const MoonModel = () => {
   // Define the moon texture object
-  const moonTextureData = { name: "Moon", logo: "/public/assets/ textures/moon.jpg" };
+  const moonTextureData = { name: "Moon", logo: "/public/assets/textures/moon.jpg" };
 
   // Load the texture using the logo path
   const moonTexture = useLoader(TextureLoader, moonTextureData.logo);
