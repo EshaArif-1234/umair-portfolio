@@ -99,11 +99,7 @@ const ClientsSection: React.FC = () => {
         <img
           src={client.logo}
           alt={client.name}
-          className={`h-20 w-20 object-contain transition-all duration-500 ${
-            isDark 
-              ? 'opacity-80 grayscale group-hover:grayscale-0 group-hover:opacity-100' 
-              : 'opacity-70 grayscale group-hover:grayscale-0 group-hover:opacity-100'
-          }`}
+          className="h-20 w-20 object-contain transition-all duration-500 opacity-90 hover:opacity-100"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
             const fallback = document.createElement('div');
