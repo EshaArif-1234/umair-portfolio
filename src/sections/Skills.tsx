@@ -6,9 +6,9 @@ import { Float, OrbitControls } from '@react-three/drei'
 const skills: string[] = [
   'Medical Coding',
   'Insurance Verification',
-  'Claim Submission',
-  'Accounts Receivable',
-  'Denial Management',
+  'enrollment verification ',
+  'Null',
+  'Authorization',
   'EHR Systems',
   'ICD-10/CPT Codes',
   'HIPAA Compliance',

@@ -132,7 +132,7 @@ const Experience = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 max-w-3xl mx-auto"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-white">
             Work Experience
           </h2>
           <p className="text-base sm:text-lg md:text-xl">
