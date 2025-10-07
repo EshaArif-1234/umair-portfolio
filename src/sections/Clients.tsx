@@ -74,29 +74,54 @@ const ClientsSection: React.FC = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-center items-center mt-10 mx-auto"
         >
           {clients.map((client, index) => (
-  <motion.div
-    key={index}
-    variants={fadeIn}
-    className={`flex justify-center items-center h-28 w-52 rounded-xl shadow-lg transition-transform duration-300 hover:scale-105 ${
-      isDark ? 'bg-white hover:bg-gray-100' : 'bg-white/80 hover:bg-white'
-    }`}
-  >
-    <img
-      src={client.logo}
-      alt={client.name}
-      className="h-16 w-16 object-contain grayscale hover:grayscale-0 transition duration-300"
-      onError={(e) => {
-        e.currentTarget.style.display = 'none';
-        const fallback = document.createElement('div');
-        fallback.className = `h-16 w-16 flex items-center justify-center text-sm ${
-          isDark ? 'text-gray-600' : 'text-gray-500'
-        }`;
-        fallback.textContent = client.name;
-        e.currentTarget.parentElement?.appendChild(fallback);
+    <motion.div
+      key={index}
+      variants={fadeIn}
+      whileHover={{ 
+        y: -5,
+        transition: { duration: 0.2 }
       }}
-    />
-  </motion.div>
-))}
+      className={`group relative h-36 w-64 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 ${
+        isDark 
+          ? 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20' 
+          : 'bg-white/60 hover:bg-white/80 border border-gray-200/80 hover:border-gray-300'
+      }`}
+    >
+      {/* Glow effect */}
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${
+        isDark 
+          ? 'from-blue-500/10 to-purple-500/10' 
+          : 'from-blue-200/30 to-purple-200/30'
+      } opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+      
+      {/* Client logo */}
+      <div className="relative z-10 flex h-full w-full items-center justify-center">
+        <img
+          src={client.logo}
+          alt={client.name}
+          className={`h-20 w-20 object-contain transition-all duration-500 ${
+            isDark 
+              ? 'opacity-80 grayscale group-hover:grayscale-0 group-hover:opacity-100' 
+              : 'opacity-70 grayscale group-hover:grayscale-0 group-hover:opacity-100'
+          }`}
+          onError={(e) => {
+            e.currentTarget.style.display = 'none';
+            const fallback = document.createElement('div');
+            fallback.className = `text-center text-sm font-medium ${
+              isDark 
+                ? 'text-white/80 group-hover:text-white' 
+                : 'text-gray-700 group-hover:text-gray-900'
+            } transition-colors duration-300`;
+            fallback.textContent = client.name;
+            e.currentTarget.parentElement?.appendChild(fallback);
+          }}
+        />
+      </div>
+      
+      {/* Subtle shine effect on hover */}
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
+    </motion.div>
+  ))}
 
         </motion.div>
       </div>
