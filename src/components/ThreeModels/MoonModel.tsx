@@ -1,16 +1,27 @@
 "use client";
+import React from 'react';
 import { useLoader } from "@react-three/fiber";
 import { TextureLoader } from "three";
 import { Float } from "@react-three/drei";
 import OrbitRing from "./OrbitRing";
 import Particles from "./Particles";
+// Import the texture from assets
+import moonTextureSrc from "../../assets/textures/moon.jpg";
 
 const MoonModel = () => {
-  // Define the moon texture object
-  const moonTextureData = { name: "Moon", logo: "/public/assets/textures/moon.jpg" };
-
-  // Load the texture using the logo path
-  const moonTexture = useLoader(TextureLoader, moonTextureData.logo);
+  // Use the imported texture with error handling
+  const moonTexture = useLoader(TextureLoader, moonTextureSrc, undefined, (error) => {
+    console.error('Error loading moon texture:', error);
+  });
+  
+  // Log texture loading status
+  React.useEffect(() => {
+    if (moonTexture) {
+      console.log('Moon texture loaded successfully');
+      // Set color space for better color reproduction
+      moonTexture.colorSpace = 'srgb';
+    }
+  }, [moonTexture]);
 
   return (
     <group>
