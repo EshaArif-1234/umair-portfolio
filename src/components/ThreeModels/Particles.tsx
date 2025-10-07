@@ -1,9 +1,8 @@
 "use client";
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo } from "react";
 import * as THREE from 'three';
 
 const Particles = ({ count = 150 }) => {
-  const particlesRef = useRef<THREE.Points>(null);
   const texture = useMemo(() => {
     // Create a canvas for the particle texture
     const canvas = document.createElement('canvas');
@@ -50,6 +49,7 @@ const Particles = ({ count = 150 }) => {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
+          args={[positions, 3]}
           array={positions}
           count={positions.length / 3}
           itemSize={3}
