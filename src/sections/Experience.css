@@ -1,0 +1,42 @@
+/* Experience component styles */
+.experience-timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Timeline date styling */
+.vertical-timeline-element-date {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark .vertical-timeline-element-date {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Timeline icon styling */
+.vertical-timeline-element-icon {
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dark .vertical-timeline-element-icon {
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .vertical-timeline-element {
+    margin: 0 0 30px 0 !important;
+  }
+  
+  .vertical-timeline-element-icon {
+    left: 6px !important;
+    margin-left: 0 !important;
+  }
+  
+  .vertical-timeline-element-content {
+    margin-left: 70px !important;
+    padding: 1.25rem !important;
+  }
+}

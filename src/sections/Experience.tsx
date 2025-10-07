@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../theme/ThemeContext';
 import { VerticalTimeline, VerticalTimelineElement } from 'react-vertical-timeline-component';
 import 'react-vertical-timeline-component/style.min.css';
+import './Experience.css';
 
 interface Experience {
   title: string;
@@ -55,11 +56,6 @@ const experiences: Experience[] = [
   },
 ];
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
 const ExperienceCard = ({ experience }: { experience: Experience }) => {
   const { theme } = useTheme();
   return (
@@ -67,37 +63,54 @@ const ExperienceCard = ({ experience }: { experience: Experience }) => {
       contentStyle={{
         background: theme ? '#1d1836' : '#fff',
         color: '#fff',
-        border: theme ? '1px solid #333' : '1px solid #ddd',
+        border: theme ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+        borderRadius: '0.75rem',
+        padding: '1.5rem',
+        boxShadow: theme 
+          ? '0 4px 20px rgba(0,0,0,0.2)' 
+          : '0 4px 20px rgba(0,0,0,0.05)',
       }}
       contentArrowStyle={{
-        borderRight: theme ? '7px solid #232631' : '7px solid #ddd',
+        borderRight: theme 
+          ? '7px solid rgba(255,255,255,0.1)' 
+          : '7px solid rgba(0,0,0,0.05)',
       }}
       date={experience.date}
-      iconStyle={{ background: experience.iconBg }}
+      dateClassName={`text-sm sm:text-base font-medium ${theme ? 'text-gray-300' : 'text-gray-600'}`}
+      iconStyle={{ 
+        background: experience.iconBg,
+        boxShadow: '0 0 0 4px rgba(0,0,0,0.1)'
+      }}
       icon={
-        <div className="flex justify-center items-center w-full h-full">
+        <div className="flex justify-center items-center w-full h-full p-1">
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className="w-[60%] h-[60%] object-contain"
+            className="w-[50%] h-[50%] object-contain"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/assets/images/default-company.svg';
+            }}
           />
         </div>
       }
     >
-      <div>
-        <h3 className={`text-[24px] font-bold ${theme ? 'text-white' : 'text-deepDark'}`}>
+      <div className="space-y-1">
+        <h3 className={`text-xl sm:text-2xl font-bold ${theme ? 'text-white' : 'text-deepDark'}`}>
           {experience.title}
         </h3>
-        <p className={`text-[16px] font-semibold ${theme ? 'text-secondary' : 'text-gray-600'}`}
-          style={{ margin: 0 }}>
+        <p className={`text-sm sm:text-base font-semibold ${theme ? 'text-indigo-300' : 'text-indigo-600'}`}>
           {experience.company_name}
         </p>
       </div>
 
-      <ul className="mt-5 list-disc ml-5 space-y-2 text-base">
+      <ul className="mt-4 space-y-2 text-sm sm:text-base">
         {experience.points.map((point: string, i: number) => (
-          <li key={`experience-point-${i}`}
-              className={`pl-1 tracking-wider ${theme ? 'text-white' : 'text-gray-700'}`}>
+          <li 
+            key={`experience-point-${i}`}
+            className={`relative pl-5 ${theme ? 'text-gray-200' : 'text-gray-700'}`}
+          >
+            <span className="absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
             {point}
           </li>
         ))}
@@ -108,35 +121,32 @@ const ExperienceCard = ({ experience }: { experience: Experience }) => {
 
 const Experience = () => {
   const { theme } = useTheme();
-
+  
   return (
-    <section
-      id="work"
-      className={`relative w-full min-h-screen py-24 px-4 sm:px-6 lg:px-8 overflow-hidden ${
-        theme ? 'bg-gradient-to-b from-[#1a202c] to-[#1a202c]/80' : 'bg-gradient-to-b from-dark to-dark/80'
-      } text-white`}
-    >
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 w-72 h-72 bg-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-primary/10 rounded-full blur-3xl"></div>
-      </div>
-      <div className="max-w-5xl mx-auto relative z-10">
+    <section id="experience" className={`py-16 sm:py-20 md:py-24 ${theme ? 'bg-dark text-white' : 'bg-light text-deepDark'}`}>
+      <div className="container mx-auto px-4">
         <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          variants={fadeIn}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y:0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12 sm:mb-16 md:mb-20 max-w-3xl mx-auto"
         >
-          <p className="text-lg text-white">What I have done so far</p>
-          <h2 className="text-4xl font-extrabold text-white">Work Experience</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            Work Experience
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl">
+            My professional journey in medical billing and revenue cycle management
+          </p>
         </motion.div>
 
-        <div className="flex flex-col mt-20">
-          <VerticalTimeline lineColor={theme ? '#333' : '#ddd'}>
-            {experiences.map((experience, i) => (
-              <ExperienceCard key={i} experience={experience} />
+        <div className="experience-timeline">
+          <VerticalTimeline
+            lineColor={theme ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}
+            className={theme ? 'dark' : ''}
+          >
+            {experiences.map((experience, index) => (
+              <ExperienceCard key={index} experience={experience} />
             ))}
           </VerticalTimeline>
         </div>

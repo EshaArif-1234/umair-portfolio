@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from "../theme/ThemeContext";
-import {  Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { motion } from "framer-motion";
 import LightLogo from "/assets/Elegant Serif Logo Design.png";
 import DarkLogo from "/assets/Elegant Serif Logo Design 1.png";
 
@@ -18,11 +19,7 @@ const Navbar: React.FC = () => {
   const { theme} = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero"); // Default to 'hero' (Home)
-  const activeStyle = {
-    textDecoration: "underline",
-    textUnderlineOffset: "4px",
-    textDecorationThickness: "2px", // Custom thickness for the underline
-  };
+  // Removed unused activeStyle since we're using a different approach for active state
   // Update active section based on scroll position or click
   useEffect(() => {
     const handleScroll = () => {
@@ -54,78 +51,140 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-light dark:bg-deepDark shadow-md transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 py-4 md:py-6 flex justify-between items-center">
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-deepDark/95 backdrop-blur-md shadow-md transition-all duration-300 border-b border-gray-100 dark:border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center">
         {/* Logo and Name */}
-        <div className="flex items-center gap-10">
-          <img
+        <a 
+          href="#hero" 
+          className="flex items-center gap-3 group"
+          onClick={() => handleSectionClick('hero')}
+        >
+          <motion.img
             src={theme ? DarkLogo : LightLogo}
-            alt="logo"
-            className="h-12 w-auto md:h-16 p-2 rounded-full border-2 border-black dark:border-white"
+            alt="Logo"
+            className="h-10 w-10 sm:h-12 sm:w-12 p-1.5 sm:p-2 rounded-full border-2 border-black/80 dark:border-white/80 transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+            whileHover={{ rotate: 5 }}
           />
-        </div>
+          <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            Umair
+          </span>
+        </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex gap-6">
+        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
           {sections.map(({ name, id }) => (
             <a
               key={id}
               href={`#${id}`}
-              className="text-base font-medium hover:text-primary dark:hover:text-light transition-colors text-gray-700 dark:text-gray-300"
-              style={activeSection === id ? activeStyle : {}}
-              onClick={() => handleSectionClick(id)}
+              className={`px-3 py-2.5 text-sm lg:text-base font-medium transition-all duration-200 rounded-lg ${
+                activeSection === id 
+                  ? 'text-primary dark:text-white bg-primary/10 dark:bg-white/10' 
+                  : 'text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/5'
+              }`}
+              onClick={(e) => {
+                e.preventDefault();
+                handleSectionClick(id);
+                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               {name}
+              {activeSection === id && (
+                <motion.span 
+                  className="block h-0.5 bg-primary dark:bg-white mt-1"
+                  layoutId="activeNav"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                />
+              )}
             </a>
           ))}
         </nav>
 
         {/* Mobile Menu Button */}
-        <button
-          className="md:hidden text-gray-700 dark:text-gray-300"
+        <motion.button
+          className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Dark Mode Toggle - Desktop */}
-        {/* <button
-          onClick={toggleTheme}
-          className="hidden md:block ml-4 text-xl text-gray-700 dark:text-gray-300"
-        >
-          {theme ? <Sun size={22} /> : <Moon size={22} />}
-        </button> */}
+          {mobileMenuOpen ? (
+            <X size={24} className="text-gray-800 dark:text-gray-200" />
+          ) : (
+            <Menu size={24} className="text-gray-800 dark:text-gray-200" />
+          )}
+        </motion.button>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-light dark:bg-dark shadow-md absolute top-full left-0 right-0 transition-colors duration-300">
-          <nav className="flex flex-col px-4 py-2 gap-3">
-            {sections.map(({ name, id }) => (
-              <a
+      <motion.div
+        initial={false}
+        animate={mobileMenuOpen ? 'open' : 'closed'}
+        className="md:hidden fixed inset-0 z-40 overflow-hidden"
+      >
+        {/* Backdrop */}
+        <motion.div
+          className="absolute inset-0 bg-black/30 dark:bg-black/60 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: mobileMenuOpen ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+        
+        {/* Menu Panel */}
+        <motion.div
+          className="absolute top-0 right-0 h-full w-4/5 max-w-sm bg-white dark:bg-deepDark shadow-2xl flex flex-col overflow-hidden"
+          variants={{
+            open: { x: 0, transition: { type: 'spring', stiffness: 300, damping: 30 } },
+            closed: { x: '100%', transition: { delay: 0.1 } },
+          }}
+        >
+          <div className="p-5 border-b border-gray-100 dark:border-gray-800">
+            <div className="flex items-center gap-3">
+              <img
+                src={theme ? DarkLogo : LightLogo}
+                alt="Logo"
+                className="h-12 w-12 p-1.5 rounded-full border-2 border-black/80 dark:border-white/80"
+              />
+              <span className="text-xl font-bold">Umair</span>
+            </div>
+          </div>
+          
+          <nav className="flex-1 overflow-y-auto p-4 space-y-1">
+            {sections.map(({ name, id }, index) => (
+              <motion.a
                 key={id}
                 href={`#${id}`}
-                className="text-base font-medium hover:text-primary dark:hover:text-light transition-colors text-gray-700 dark:text-gray-300 py-2 border-b border-gray-200 dark:border-gray-700"
-                style={activeSection === id ? activeStyle : {}}
-                onClick={() => handleSectionClick(id)}
+                className={`block px-4 py-3.5 rounded-xl text-base font-medium transition-colors ${
+                  activeSection === id
+                    ? 'bg-primary/10 text-primary dark:bg-white/10 dark:text-white'
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800/50'
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSectionClick(id);
+                  setMobileMenuOpen(false);
+                  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ 
+                  delay: 0.1 + (index * 0.05),
+                  type: 'spring',
+                  stiffness: 300,
+                  damping: 25
+                }}
               >
                 {name}
-              </a>
+              </motion.a>
             ))}
           </nav>
-          {/* <div className="px-4 py-3 flex justify-between items-center border-t border-gray-200 dark:border-gray-700">
-            <span className="text-sm text-gray-700 dark:text-gray-300">
-              Theme
-            </span>
-            <button
-              onClick={toggleTheme}
-              className="text-gray-700 dark:text-gray-300"
-            >
-              {theme ? <Sun size={20} /> : <Moon size={20} />}
-            </button>
-          </div> */}
-        </div>
-      )}
+          
+          <div className="p-4 border-t border-gray-100 dark:border-gray-800">
+            <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
+              &copy; {new Date().getFullYear()} Umair. All rights reserved.
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </header>
   );
 };
