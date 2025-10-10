@@ -16,7 +16,7 @@ const About: React.FC = () => {
     visible: { opacity: 1, y: 0 },
   };
 
-  const resumeUrl = '/public/assets/Resume-Umair-1.pdf'; // Place your resume in public folder
+  const resumeUrl = '/assets/Umair-hassan-cv.pdf';
 
   return (
     <section id="about" className="relative w-full min-h-screen flex flex-col lg:flex-row items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 gap-8 sm:gap-12 bg-light dark:bg-deepDark overflow-hidden">

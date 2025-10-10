@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
+import emailjs from '@emailjs/browser';
 import ErrorBoundary from "../components/ThreeModels/ErrorBoundary";
 import MoonModel from "../components/ThreeModels/MoonModel";
 
@@ -15,13 +16,47 @@ const FallbackSphere = () => (
 );
 
 const ContactSection = () => {
+  const form = useRef<HTMLFormElement>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    from_name: '',
+    from_email: '',
+    message: ''
+  });
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-  }, []);
+    setIsSubmitting(true);
+
+    try {
+      if (!form.current) return;
+      
+      // Replace these with your actual EmailJS service ID, template ID, and public key
+      const serviceId = 'service_your_service_id';
+      const templateId = 'template_your_template_id';
+      const publicKey = 'your_public_key';
+
+      await emailjs.sendForm(serviceId, templateId, form.current, publicKey);
+      
+      setSubmitted(true);
+      setFormData({ from_name: '', from_email: '', message: '' });
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (error) {
+      console.error('Error sending email:', error);
+      alert('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section
@@ -97,24 +132,30 @@ const ContactSection = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="sr-only">Full Name</label>
+                <label htmlFor="from_name" className="sr-only">Full Name</label>
                 <input
-                  id="name"
+                  id="from_name"
+                  name="from_name"
                   type="text"
                   placeholder="Full Name"
+                  value={formData.from_name}
+                  onChange={handleChange}
                   className="w-full p-3 sm:p-4 rounded-lg bg-white/80 dark:bg-[#415a77]/80 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-deepDark dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
                   required
                 />
               </div>
               
               <div>
-                <label htmlFor="email" className="sr-only">Email</label>
+                <label htmlFor="from_email" className="sr-only">Email</label>
                 <input
-                  id="email"
+                  id="from_email"
+                  name="from_email"
                   type="email"
                   placeholder="Email Address"
+                  value={formData.from_email}
+                  onChange={handleChange}
                   className="w-full p-3 sm:p-4 rounded-lg bg-white/80 dark:bg-[#415a77]/80 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-deepDark dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
                   required
                 />
@@ -124,8 +165,11 @@ const ContactSection = () => {
                 <label htmlFor="message" className="sr-only">Message</label>
                 <textarea
                   id="message"
+                  name="message"
                   placeholder="Your Message"
                   rows={4}
+                  value={formData.message}
+                  onChange={handleChange}
                   className="w-full p-3 sm:p-4 rounded-lg bg-white/80 dark:bg-[#415a77]/80 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none text-deepDark dark:text-white placeholder-gray-500 dark:placeholder-gray-400 resize-none transition-all duration-200"
                   required
                 />
@@ -133,15 +177,28 @@ const ContactSection = () => {
 
               <motion.button
                 type="submit"
-                whileTap={{ scale: 0.98 }}
-                whileHover={{ scale: 1.02 }}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium sm:font-semibold py-3 sm:py-3.5 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-md flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                whileTap={!isSubmitting ? { scale: 0.98 } : undefined}
+                whileHover={!isSubmitting ? { scale: 1.02 } : undefined}
+                className={`w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium sm:font-semibold py-3 sm:py-3.5 px-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl active:shadow-md flex items-center justify-center gap-2 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-                Send Message
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                      <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    Send Message
+                  </>
+                )}
               </motion.button>
 
             {submitted && (

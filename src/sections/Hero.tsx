@@ -92,7 +92,12 @@ const Hero: React.FC = () => {
               </button>
               <button
                 className="border-2 border-indigo-600 bg-transparent hover:bg-indigo-50 dark:hover:bg-indigo-900/20 text-indigo-600 dark:text-light px-6 sm:px-8 md:px-10 py-3 sm:py-4 rounded-full font-semibold text-lg sm:text-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg w-full sm:w-auto max-w-xs"
-                onClick={() => (window.location.href = "#portfolio")}
+                onClick={() => {
+                  const experienceSection = document.getElementById('experience');
+                  if (experienceSection) {
+                    experienceSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 View My Work
               </button>

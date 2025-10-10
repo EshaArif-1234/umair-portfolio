@@ -6,14 +6,35 @@ import { useTheme } from '../theme/ThemeContext';
 interface Client {
   name: string;
   logo: string;
+  url: string;
 }
 
 const clients: Client[] = [
-  { name: 'Advance', logo: '/assets/clients/Advance.png' },
-  { name: 'AMCARE', logo: '/assets/clients/AMCARE.png' },
-  { name: 'Socal', logo: '/assets/clients/Socal.jpeg' },
-  { name: 'Primary Care', logo: '/assets/clients/primary-care.png' },
-  { name: 'Thrive', logo: '/assets/clients/thrive.png' },
+  { 
+    name: 'Advanced Pain Management Clinic', 
+    logo: '/assets/clients/Advance.png',
+    url: 'https://advancedpainmanagementclinic.com/' 
+  },
+  { 
+    name: 'AMCare Medical Clinic', 
+    logo: '/assets/clients/AMCARE.png',
+    url: 'https://www.amcaremedicalclinic.org/' 
+  },
+  { 
+    name: 'Southern California Heart Specialists', 
+    logo: '/assets/clients/Socal.jpeg',
+    url: 'https://socalheart.com/' 
+  },
+  { 
+    name: 'Thrive Medical (Primary Care)', 
+    logo: '/assets/clients/primary-care.png',
+    url: 'https://thrivemedical.com/' 
+  },
+  { 
+    name: 'Thrive Psychological Services', 
+    logo: '/assets/clients/thrive.png',
+    url: 'https://thrivepsychservices.org/' 
+  },
 ];
 
 const container = {
@@ -100,11 +121,14 @@ const ClientsSection: React.FC = () => {
           className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 px-2 sm:px-4"
         >
           {clients.map((client, index) => (
-            <motion.div
+            <motion.a
               key={`${client.name}-${index}`}
+              href={client.url}
+              target="_blank"
+              rel="noopener noreferrer"
               variants={item}
               whileHover="hover"
-              className={`group relative h-28 sm:h-36 md:h-40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl backdrop-blur-sm transition-all duration-300 ${
+              className={`group relative block h-28 sm:h-36 md:h-40 p-4 sm:p-6 rounded-2xl sm:rounded-3xl backdrop-blur-sm transition-all duration-300 ${
                 isDark
                   ? 'bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20'
                   : 'bg-white/60 hover:bg-white/80 border border-gray-200/80 hover:border-gray-300 shadow-md hover:shadow-lg'
@@ -120,33 +144,31 @@ const ClientsSection: React.FC = () => {
               />
               
               {/* Client logo */}
-              <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="relative w-full h-full flex items-center justify-center">
-                  <img
-                    src={client.logo}
-                    alt={client.name}
-                    className={`h-16 w-auto max-w-full object-contain transition-all duration-500 ${
-                      isDark ? 'invert' : 'invert-0'
-                    } opacity-90 group-hover:opacity-100`}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const fallback = document.createElement('div');
-                      fallback.className = `text-center text-sm font-medium ${
-                        isDark 
-                          ? 'text-white/80 group-hover:text-white' 
-                          : 'text-gray-700 group-hover:text-gray-900'
-                      } transition-colors duration-300`;
-                      fallback.textContent = client.name;
-                      target.parentNode?.appendChild(fallback);
-                    }}
-                  />
-                </div> 
+              <div className="relative w-full h-full flex items-center justify-center">
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className={`max-h-12 sm:max-h-16 md:max-h-20 w-auto max-w-full transition-all duration-300 ${
+                    isDark ? 'opacity-90 group-hover:opacity-100' : 'opacity-80 group-hover:opacity-100'
+                  }`}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = `text-center text-sm font-medium ${
+                      isDark 
+                        ? 'text-white/80 group-hover:text-white' 
+                        : 'text-gray-700 group-hover:text-gray-900'
+                    } transition-colors duration-300`;
+                    fallback.textContent = client.name;
+                    target.parentNode?.replaceChild(fallback, target);
+                  }}
+                />
               </div>
       
               {/* Subtle shine effect on hover */}
               <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700`}></div>
-            </motion.div>
+            </motion.a>
           ))}
 
         </motion.div>

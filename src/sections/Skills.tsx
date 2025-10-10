@@ -6,8 +6,8 @@ import { Float, OrbitControls } from '@react-three/drei'
 const skills: string[] = [
   'Medical Coding',
   'Insurance Verification',
-  'enrollment verification ',
-  'Null',
+  'enrollment Verification ',
+  'Eligibility and Benefits Verification',
   'Authorization',
   'EHR Systems',
   'ICD-10/CPT Codes',
@@ -53,7 +53,7 @@ const Skills: React.FC = () => {
           {skills.map((skill, index) => (
             <motion.div
               key={index}
-              className="bg-white/80 dark:bg-deepDark/80 p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,0.1)] text-center transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.15)] backdrop-blur-sm border border-white/20 dark:border-deepDark/20"
+              className="flex items-center justify-center bg-white/80 dark:bg-deepDark/80 p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg dark:shadow-[0_4px_12px_rgba(255,255,255,0.1)] text-center transition-all duration-300 hover:shadow-xl dark:hover:shadow-[0_6px_16px_rgba(255,255,255,0.15)] backdrop-blur-sm border border-white/20 dark:border-deepDark/20 min-h-[120px]"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
@@ -61,7 +61,7 @@ const Skills: React.FC = () => {
               variants={fadeIn}
               whileHover={{ y: -5, scale: 1.02 }}
             >
-              <p className="text-base sm:text-lg font-medium sm:font-semibold text-primary dark:text-primaryLight leading-tight px-2 py-1 sm:px-3 sm:py-1.5 rounded-md bg-primary/5 dark:bg-primaryLight/10 inline-block">
+              <p className="text-base sm:text-lg font-medium sm:font-semibold text-primary dark:text-primaryLight leading-tight px-2 py-1 sm:px-3 sm:py-1.5 rounded-md bg-primary/5 dark:bg-primaryLight/10 w-full">
                 {skill}
               </p>
             </motion.div>
